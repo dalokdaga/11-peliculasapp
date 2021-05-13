@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StarRatingComponent } from 'ng-starrating';
 import { Movi } from 'src/app/models/carterleraResponse';
 
 @Component({
