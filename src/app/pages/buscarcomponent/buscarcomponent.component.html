@@ -1,1 +1,11 @@
-<p>buscarcomponent works!</p>
+<h1 class="mt-5">Buscar películas <small class="text-capitalize"> {{ texto }} </small></h1>
+<hr>
+<div class="row">
+    <div class="col">
+        <app-peliculas-poster-grid
+            class="m-5"
+            *ngIf="movies.length > 0" 
+            [movies]="movies">
+        </app-peliculas-poster-grid>
+    </div>
+</div>

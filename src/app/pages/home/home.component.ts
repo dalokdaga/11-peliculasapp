@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Movi } from 'src/app/models/carterleraResponse';
 import { PeliculasService } from 'src/app/services/peliculas.service';
 
@@ -7,7 +7,7 @@ import { PeliculasService } from 'src/app/services/peliculas.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit , OnDestroy{
   public movies: Movi[] = [];
   public moviesSlideshow: Movi[] = []
   @HostListener('window:scroll', ['$event'])
@@ -16,8 +16,11 @@ export class HomeComponent implements OnInit {
     const max = (document.documentElement.scrollHeight || document.documentElement.scrollHeight)    
 
     if (pos > max) {
-      this.peliculasService.getCartelera().subscribe(resp =>{
-        this.movies.push(...resp.results)
+      if (this.peliculasService.cargando) {
+        return
+      }
+      this.peliculasService.getCartelera().subscribe(movies =>{
+        this.movies.push(...movies)
       })
     }
   }
@@ -27,11 +30,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.peliculasService.getCartelera()
-    .subscribe((resp) => {
+    .subscribe((movies) => {
       //console.log(resp.results)
-      this.movies = resp.results;      
-      this.moviesSlideshow = resp.results;      
+      this.movies = movies;      
+      this.moviesSlideshow = movies;      
     })
   }
 
+  ngOnDestroy(){
+    this.peliculasService.resetCartelera();
+  }
 }
