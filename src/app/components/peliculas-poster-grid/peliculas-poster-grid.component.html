@@ -1,6 +1,8 @@
 <div class="row">
-    <div class="col-md-3 mb-5" *ngFor="let movie of movies">
-        <img [src]="movie.poster_path | poster" class="img-fluid rounded">
+    <div class="col-md-3 mb-5 animate__animated animate__fadeIn" *ngFor="let movie of movies">
+        <img [src]="movie.poster_path | poster" 
+            [routerLink]="['/pelicula/', movie.id]"
+            class="img-fluid rounded">
         <div>
             <h3> {{ movie.title }} </h3>
             <div class="row">
